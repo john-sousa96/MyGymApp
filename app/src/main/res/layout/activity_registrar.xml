@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2A00BCD4"
+    android:textAlignment="center"
+    tools:context=".RegistrarActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <TextView
+            android:id="@+id/lb_dia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:labelFor="@id/cx_dia"
+            android:text="@string/lb_dia"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/cx_dia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="88dp"
+            android:layout_marginTop="8dp"
+            android:editable="false"
+            android:ems="10"
+            android:enabled="false"
+            android:inputType="date"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lb_dia" />
+
+        <TextView
+            android:id="@+id/lb_tipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:labelFor="@id/rg_tipo"
+            android:text="@string/lb_tipo"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cx_dia" />
+
+        <RadioGroup
+            android:id="@+id/rg_tipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lb_tipo">
+
+            <RadioButton
+                android:id="@+id/rb_inferior"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rb_inferior" />
+
+            <RadioButton
+                android:id="@+id/rb_peitoral"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rb_peitoral" />
+
+            <RadioButton
+                android:id="@+id/rb_abdomen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rb_abdomem" />
+
+            <RadioButton
+                android:id="@+id/rb_costas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rb_costas" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/lb_exercicio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:labelFor="@id/sp_exercicio"
+            android:text="@string/lb_exercicio"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rg_tipo" />
+
+        <Spinner
+            android:id="@+id/sp_exercicio"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:spinnerMode="dialog"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lb_exercicio" />
+
+        <TextView
+            android:id="@+id/lb_peso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:labelFor="@id/cx_peso"
+            android:text="@string/lb_peso"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sp_exercicio" />
+
+        <EditText
+            android:id="@+id/cx_peso"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="88dp"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="0.0"
+            android:inputType="numberDecimal"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lb_peso" />
+
+        <TextView
+            android:id="@+id/lb_series"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:labelFor="@id/cx_serie"
+            android:text="@string/lb_serie"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cx_peso" />
+
+        <EditText
+            android:id="@+id/cx_serie"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="88dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="1"
+            android:inputType="number"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lb_series" />
+
+        <CheckBox
+            android:id="@+id/cb_concludo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/cb_concluido"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cx_serie" />
+
+        <Button
+            android:id="@+id/bt_limpar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bt_limpar"
+            tools:layout_editor_absoluteX="267dp"
+            tools:layout_editor_absoluteY="658dp" />
+
+        <Button
+            android:id="@+id/bt_salvar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bt_salvar"
+            tools:layout_editor_absoluteX="51dp"
+            tools:layout_editor_absoluteY="658dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

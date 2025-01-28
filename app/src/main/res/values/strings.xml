@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MyGym</string>
+    <string name="rb_peitoral">peitoral</string>
+    <string name="rb_abdomen">Abdômem</string>
+</resources>

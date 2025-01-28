@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyGym</string>
+    <string name="lb_dia">Data:</string>
+    <string name="lb_tipo">Tipo:</string>
+    <string name="rb_inferior">Membros inferiores</string>
+    <string name="rb_abdomem">Abdômem</string>
+    <string name="rb_peitoral">Peitoral</string>
+    <string name="rb_costas">Costas</string>
+    <string name="lb_exercicio">Exercício:</string>
+    <string name="lb_peso">Peso:</string>
+    <string name="lb_serie">Repetições:</string>
+    <string name="cb_concluido">Exercício Concluído</string>
+    <string name="bt_salvar">Salvar</string>
+    <string name="bt_limpar">Limpar</string>
+</resources>
