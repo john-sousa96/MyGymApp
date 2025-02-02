@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MyGym</string>
-    <string name="lb_dia">Data:</string>
-    <string name="lb_tipo">Tipo:</string>
+    <string name="lb_dia">Data: </string>
+    <string name="lb_tipo">Tipo exercício: </string>
     <string name="rb_inferior">Membros inferiores</string>
     <string name="rb_abdomem">Abdômem</string>
     <string name="rb_peitoral">Peitoral</string>
@@ -11,6 +11,43 @@
     <string name="lb_peso">Peso:</string>
     <string name="lb_serie">Repetições:</string>
     <string name="cb_concluido">Exercício Concluído</string>
+    <string name="cb_nao_concluido">Exercício Não Concluído</string>
     <string name="bt_salvar">Salvar</string>
     <string name="bt_limpar">Limpar</string>
+    <string name="toast_limpar">Todas as entradas foram apagadas</string>
+    <string name="toast_faltou_tipo">Faltou preencher o tipo de exercício</string>
+    <string name="toast_spinner_vazio">o campo exercício não foi populado</string>
+    <string name="toast_peso_vazio">O peso do exercício não foi preenchido</string>
+    <string name="toast_peso_incorreto">O peso foi preenchido incorretamente</string>
+    <string name="toast_serie_vazio">a quantidade de repetições do exercício não foi preenchida</string>
+    <string name="toast_serie_incorreto">A quantidade de série foi preenchida incorretamente</string>
+    <string name="sp_item_1">Banco Abdominal</string>
+    <string name="sp_item_2">Barra fixa Pronada</string>
+    <string name="sp_item_3">Banco lombar</string>
+    <string name="sp_item_4">Cross Over</string>
+    <string name="sp_item_5">Desenvolvimento de ombro (Máquina)</string>
+    <string name="sp_item_6">Peck fly (Voador)</string>
+    <string name="sp_item_7">Puxador (Pulley Costas)</string>
+    <string name="sp_item_8">Polia</string>
+    <string name="sp_item_9">Power racks</string>
+    <string name="sp_item_10">Prancha abdominal</string>
+    <string name="sp_item_11">Remada baixa (máquina)</string>
+    <string name="sp_item_12">Supino</string>
+    <string name="sp_item_13">Supino reto (Máquina)</string>
+    <string name="sp_item_14">Aparelho de glúteo</string>
+    <string name="sp_item_15">Apolete</string>
+    <string name="sp_item_16">Agachamento smith</string>
+    <string name="sp_item_17">Cadeira abdutora</string>
+    <string name="sp_item_18">Cadeira adutora</string>
+    <string name="sp_item_19">Cadeira extensora</string>
+    <string name="sp_item_20">Cadeira flexora</string>
+    <string name="sp_item_21">Elevação pélvica</string>
+    <string name="sp_item_22"> Hack 45º</string>
+    <string name="sp_item_23">Leg press 45º</string>
+    <string name="sp_item_24">Leg press horizontal</string>
+    <string name="sp_item_25">Mesa flexora</string>
+    <string name="sp_item_26"> Panturrilha em pé</string>
+    <string name="sp_item_27">Panturrilha sentada</string>
+    <string name="sp_item_28"> Graviton</string>
+
 </resources>
