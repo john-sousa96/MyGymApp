@@ -31,4 +31,82 @@
         <item>@string/sp_item_28</item>
 
     </string-array>
+
+    <string-array name="historico_dias">
+        <item>01/02/2025</item>
+        <item>02/02/2025</item>
+        <item>03/02/2025</item>
+        <item>04/02/2025</item>
+        <item>05/02/2025</item>
+        <item>06/02/2025</item>
+        <item>07/02/2025</item>
+        <item>08/02/2025</item>
+        <item>09/02/2025</item>
+        <item>10/02/2025</item>
+        <item>11/02/2025</item>
+    </string-array>
+    <string-array name="historico_pesos">
+        <item>1.0</item>
+        <item>2.0</item>
+        <item>3.0</item>
+        <item>4.0</item>
+        <item>5.0</item>
+        <item>6.0</item>
+        <item>7.0</item>
+        <item>8.0</item>
+        <item>9.0</item>
+        <item>10.0</item>
+    </string-array>
+    <integer-array name="historico_repeticoes">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </integer-array>
+    <integer-array name="historico_concluido">
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>1</item>
+
+    </integer-array>
+
+    <integer-array name="historico_tipo_exercicios">
+        <item>0</item>
+        <item>1</item>
+        <item>3</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>2</item>
+        <item>1</item>
+
+    </integer-array>
+
+    <integer-array name="historico_exercicios">
+        <item>0</item>
+        <item>1</item>
+        <item>3</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>2</item>
+        <item>1</item>
+    </integer-array>
 </resources>

@@ -1,2 +1,4 @@
 <resources>
+    <string name="dia_do_exercicio">"Dia do exercicio "</string>
+    <string name="foi_clicado">" foi clicado!"</string>
 </resources>
