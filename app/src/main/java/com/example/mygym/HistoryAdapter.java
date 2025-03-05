@@ -97,7 +97,7 @@ public class HistoryAdapter extends BaseAdapter {
                     holder.lb_line_tipo_valor.setText(R.string.rb_abdomem);
                     break;
                 case Peitoral:
-                    holder.lb_line_tipo_valor.setText(R.string.rb_costas);
+                    holder.lb_line_tipo_valor.setText(R.string.rb_peitoral);
                     break;
             }
         } catch (Exception e) {

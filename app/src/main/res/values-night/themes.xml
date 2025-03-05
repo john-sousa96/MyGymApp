@@ -3,5 +3,9 @@
     <style name="Base.Theme.MyGym" parent="Theme.Material3.Dark">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/azul_eletrico</item>
+        <item name="colorPrimaryVariant">@color/azul_mais_profundo</item>
+        <item name="colorOnPrimary">@color/branco</item>
+        <item name="android:textColorLink">@color/azul_eletrico</item>
     </style>
 </resources>

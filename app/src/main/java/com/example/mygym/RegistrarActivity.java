@@ -1,8 +1,10 @@
 package com.example.mygym;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -18,6 +20,12 @@ import java.util.Date;
 
 public class RegistrarActivity extends AppCompatActivity {
 
+    public static final String KEY_TIPO = "KEY_TIPO";
+    public static final String KEY_DIA = "KEY_DIA";
+    public static final String KEY_EXERCICIO = "KEY_EXERCICIO";
+    public static final String KEY_PESO = "KEY_PESO";
+    public static final String KEY_REPETICOES = "KEY_REPETICOES";
+    public static final String KEY_CONCLUIDO = "KEY_CONCLUIDO";
     private EditText cx_dia, cx_peso, cx_serie;
     private CheckBox cb_concluido;
     private RadioGroup rg_tipo;
@@ -25,6 +33,7 @@ public class RegistrarActivity extends AppCompatActivity {
     DateFormat dateFormat;
     Date date;
     String dataformatada;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,113 +69,114 @@ public class RegistrarActivity extends AppCompatActivity {
 
     public void salvar(View view){
 
-       //Valida rg_tipo
-        int rbId = rg_tipo.getCheckedRadioButtonId();
-
-        String tipoExercicio;
-
-        if (rbId == R.id.rb_abdomen){
-            tipoExercicio = getString(R.string.rb_abdomem);
-        }else
-        if (rbId == R.id.rb_costas){
-            tipoExercicio = getString(R.string.rb_costas);
-        }else
-        if (rbId == R.id.rb_inferior){
-            tipoExercicio = getString(R.string.rb_inferior);
-        }else
-            if (rbId == R.id.rb_peitoral){
-            tipoExercicio = getString(R.string.rb_peitoral);
-        }
-        else{
-            Toast.makeText(this,
-                    R.string.toast_faltou_tipo,
-                    Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        //Valida spinner de exercícios
-        String exercicio = (String) sp_exercicio.getSelectedItem();
-
-        if (exercicio == null){
-
-            Toast.makeText(this,
-                    R.string.toast_spinner_vazio,
-                    Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        //valida o peso do exercício
-        String pesoString = cx_peso.getText().toString();
-
-        if (pesoString == null || pesoString.trim().isEmpty()){
-
-            Toast.makeText(this,
-                    R.string.toast_peso_vazio,
-                    Toast.LENGTH_LONG).show();
-
-            cx_peso.requestFocus();
-            return;
-        }
-
-        double pesoDouble = 0.0;
-
         try {
-            pesoDouble = Double.parseDouble(pesoString);
+            //Valida rg_tipo
+            int rbId = rg_tipo.getCheckedRadioButtonId();
 
-        } catch (NumberFormatException e) {
+            TipoExercicio tipoExercicio;
 
-            Toast.makeText(this,
-                    R.string.toast_peso_incorreto,
-                    Toast.LENGTH_LONG).show();
+            if (rbId == R.id.rb_abdomen) {
+                tipoExercicio =TipoExercicio.Abdomem;
+            } else if (rbId == R.id.rb_costas) {
+                tipoExercicio = TipoExercicio.Costas;
+            } else if (rbId == R.id.rb_inferior) {
+                tipoExercicio = TipoExercicio.Inferiores;
+            } else if (rbId == R.id.rb_peitoral) {
+                tipoExercicio = TipoExercicio.Peitoral;
+            } else {
+                Toast.makeText(this,
+                        R.string.toast_faltou_tipo,
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
 
-            cx_peso.requestFocus();
-            cx_peso.setSelection(0, cx_peso.getText().toString().length());
-            return;
+            //Valida spinner de exercícios
+            int exercicio = sp_exercicio.getSelectedItemPosition();
+
+            if (exercicio == AdapterView.INVALID_POSITION) {
+
+                Toast.makeText(this,
+                        R.string.toast_spinner_vazio,
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            //valida o peso do exercício
+            String pesoString = cx_peso.getText().toString();
+
+            if (pesoString == null || pesoString.trim().isEmpty()) {
+
+                Toast.makeText(this,
+                        R.string.toast_peso_vazio,
+                        Toast.LENGTH_LONG).show();
+
+                cx_peso.requestFocus();
+                return;
+            }
+
+            double pesoDouble = 0.0;
+
+            try {
+                pesoDouble = Double.parseDouble(pesoString);
+
+            } catch (NumberFormatException e) {
+
+                Toast.makeText(this,
+                        R.string.toast_peso_incorreto,
+                        Toast.LENGTH_LONG).show();
+
+                cx_peso.requestFocus();
+                cx_peso.setSelection(0, cx_peso.getText().toString().length());
+                return;
+            }
+
+            //valida a quantidade de séries
+            String serieString = cx_serie.getText().toString();
+
+            if (serieString == null || serieString.trim().isEmpty()) {
+
+                Toast.makeText(this,
+                        R.string.toast_serie_vazio,
+                        Toast.LENGTH_LONG).show();
+
+                cx_serie.requestFocus();
+                return;
+            }
+
+            int serieInt = 0;
+
+            try {
+                serieInt = Integer.parseInt(serieString);
+
+            } catch (NumberFormatException e) {
+
+                Toast.makeText(this,
+                        R.string.toast_serie_incorreto,
+                        Toast.LENGTH_LONG).show();
+
+                cx_serie.requestFocus();
+                cx_serie.setSelection(0, cx_serie.getText().toString().length());
+                return;
+            }
+
+            boolean concluido = cb_concluido.isChecked();
+
+            Intent intentResposta = new Intent();
+            intentResposta.putExtra(KEY_DIA, dataformatada);
+            intentResposta.putExtra(KEY_TIPO, tipoExercicio.toString());
+            intentResposta.putExtra(KEY_EXERCICIO, exercicio);
+            intentResposta.putExtra(KEY_PESO, pesoDouble);
+            intentResposta.putExtra(KEY_REPETICOES, serieInt);
+            intentResposta.putExtra(KEY_CONCLUIDO, concluido);
+
+            setResult(GymHistoryActivity.RESULT_OK, intentResposta);
+            finish();
+
+
+        } catch (Exception e) {
+            System.out.println("LOGDEV: " +  e.getStackTrace().toString());
+            setResult(GymHistoryActivity.RESULT_CANCELED);
         }
-
-        //valida a quantidade de séries
-        String serieString = cx_serie.getText().toString();
-
-        if (serieString == null || serieString.trim().isEmpty()){
-
-            Toast.makeText(this,
-                    R.string.toast_serie_vazio,
-                    Toast.LENGTH_LONG).show();
-
-            cx_serie.requestFocus();
-            return;
-        }
-
-        int serieInt = 0;
-
-        try {
-            serieInt = Integer.parseInt(serieString);
-
-        } catch (NumberFormatException e) {
-
-            Toast.makeText(this,
-                    R.string.toast_serie_incorreto,
-                    Toast.LENGTH_LONG).show();
-
-            cx_serie.requestFocus();
-            cx_serie.setSelection(0, cx_serie.getText().toString().length());
-            return;
-        }
-
-       boolean concluido = cb_concluido.isChecked();
-
-       Toast.makeText(this,
-                getString(R.string.lb_dia)  + dataformatada,Toast.LENGTH_LONG).show();
-        Toast.makeText(this,
-                getString(R.string.lb_tipo)  + tipoExercicio,Toast.LENGTH_LONG).show();
-        Toast.makeText(this,
-                getString(R.string.lb_exercicio) + exercicio,Toast.LENGTH_LONG).show();
-        Toast.makeText(this,
-                getString(R.string.lb_peso) + pesoString,Toast.LENGTH_LONG).show();
-        Toast.makeText(this,
-                getString(R.string.lb_serie) + serieString,Toast.LENGTH_LONG).show();
-        Toast.makeText(this,
-                (concluido ? getString(R.string.cb_concluido) : getString(R.string.cb_nao_concluido)),Toast.LENGTH_LONG).show();
 
     }
 }

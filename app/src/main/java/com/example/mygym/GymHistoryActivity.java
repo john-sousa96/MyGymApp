@@ -2,6 +2,7 @@ package com.example.mygym;
 
 import static com.example.mygym.TipoExercicio.Peitoral;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,6 +11,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -36,6 +41,7 @@ public class GymHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gym_history);
 
         lv_gymHistory = findViewById(R.id.lv_gymHistory);
+        setTitle(getString(R.string.title_historico));
 
         lv_gymHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -59,27 +65,32 @@ public class GymHistoryActivity extends AppCompatActivity {
     }
 
    private void popularListaHistory() {
-       DateFormat dateFormat;
+       historyList = new ArrayList<>();
+
+      /*  DateFormat dateFormat;
         Date dia;
         Double peso;
        Locale localeBr = new Locale("pt", "BR");
 
-        String [] historico_dias = getResources().getStringArray(R.array.historico_dias);
+       History history;
+       boolean concluido;
+       TipoExercicio tipoExercicio;
+       TipoExercicio [] tipos = TipoExercicio.values();
+
+       dateFormat = new SimpleDateFormat("dd/MM/yyyy", localeBr);*/
+
+
+        /*String [] historico_dias = getResources().getStringArray(R.array.historico_dias);
         int [] historico_tipo_exercicios = getResources().getIntArray(R.array.historico_tipo_exercicios);
         int [] historico_exercicios = getResources().getIntArray(R.array.historico_exercicios);
         String [] historico_pesos = getResources().getStringArray(R.array.historico_pesos);
         int [] historico_repeticoes = getResources().getIntArray(R.array.historico_repeticoes);
-        int [] historico_concluido =getResources().getIntArray(R.array.historico_concluido);
+        int [] historico_concluido =getResources().getIntArray(R.array.historico_concluido);*/
 
-        historyList = new ArrayList<>();
-        History history;
-        boolean concluido;
-        TipoExercicio tipoExercicio;
-        TipoExercicio [] tipos = TipoExercicio.values();
 
-        dateFormat = new SimpleDateFormat("dd/MM/yyyy", localeBr);
 
-        try{
+
+        /*try{
             for(int count = 0; count < historico_dias.length; count++){
                 concluido = (historico_concluido[count] == 1 ? true : false);
                 tipoExercicio = tipos[historico_tipo_exercicios[count]];
@@ -99,12 +110,73 @@ public class GymHistoryActivity extends AppCompatActivity {
         }catch (Exception e) {
             System.out.println("LOGDEV");
             System.out.println(e.getStackTrace());
-        }
+        }*/
 
 
         historyAdapter = new HistoryAdapter(this, historyList);
         lv_gymHistory.setAdapter(historyAdapter);
 
+    }
+
+    public void abrirSobre (View view){
+        Intent intent = new Intent(this, SobreActivity.class);
+        startActivity(intent);
+    }
+
+    public static Date stringToDate(String dateStr) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            return sdf.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    ActivityResultLauncher <Intent> launcherNovoCadastro =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult result) {
+
+                            if(result.getResultCode() == GymHistoryActivity.RESULT_OK){
+                                Intent intent = result.getData();
+                                Bundle bundle = intent.getExtras();
+
+                                if(bundle != null){
+
+                                    try {
+                                        Date dia = stringToDate(bundle.getString(RegistrarActivity.KEY_DIA));
+                                        String tipoStr = bundle.getString(RegistrarActivity.KEY_TIPO);
+                                        int exercicio = bundle.getInt(RegistrarActivity.KEY_EXERCICIO);
+                                        double peso = bundle.getDouble(RegistrarActivity.KEY_PESO);
+                                        int repeticoes = bundle.getInt(RegistrarActivity.KEY_REPETICOES);
+                                        boolean concluido = bundle.getBoolean(RegistrarActivity.KEY_CONCLUIDO);
+
+                                        History history = new History(dia,
+                                                TipoExercicio.valueOf(tipoStr),
+                                                exercicio,
+                                                peso,
+                                                repeticoes,
+                                                concluido);
+
+                                        historyList.add(history);
+                                        historyAdapter.notifyDataSetChanged();
+                                    }catch (Exception e) {
+                                        System.out.println("DEVLOG: " + e.getStackTrace().toString());
+                                    }
+                                }
+                            }
+                        }
+                    }
+            );
+
+    public void abrirNovoCadastro(View view){
+
+        Intent intent = new Intent(this, RegistrarActivity.class);
+
+        launcherNovoCadastro.launch(intent);
     }
 
 }

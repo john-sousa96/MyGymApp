@@ -1,4 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="dia_do_exercicio">"Dia do exercicio "</string>
     <string name="foi_clicado">" foi clicado!"</string>
+    <string name="logo_utfpr">Logo da UTFPR (Universidade Tecnológica Federal do Paraná)</string>
+    <string name="lb_descricao_sobre">Aplicativo para controle dos treinos esportivos dos usuários</string>
+    <string name="lb_autoria">Author:<a href="https://github.com/john-sousa96"> John Breno Rodrigues de Sousa</a></string>
+    <string name="lb_github">https://github.com/john-sousa96</string>
+    <string name="lb_email_autor">johnsousa@alunos.utfpr.edu.br</string>
+    <string name="bt_sobre">Sobre</string>
+    <string name="title_historico">Histórico de treinos</string>
+    <string name="title_sobre">Sobre a aplicação</string>
+    <string name="curso">Curso de Especialização Java, disciplina de Desenvolvimento Android</string>
+    <string name="Novo">Novo</string>
+    <string name="toast_n_possvel_abrir_o_app">Não é possível abrir o app</string>
+    <string name="contato_app">Contato sobre o app MyGym</string>
 </resources>
