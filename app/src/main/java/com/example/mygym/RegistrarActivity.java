@@ -3,6 +3,8 @@ package com.example.mygym;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -12,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.DateFormat;
@@ -56,7 +59,7 @@ public class RegistrarActivity extends AppCompatActivity {
         return dataformatada;
     }
 
-    public void limpar(View view){
+    public void limpar(){
         cx_peso.setText(null);
         cx_serie.setText(null);
         cb_concluido.setChecked(false);
@@ -67,7 +70,7 @@ public class RegistrarActivity extends AppCompatActivity {
 
     }
 
-    public void salvar(View view){
+    public void salvar(){
 
         try {
             //Valida rg_tipo
@@ -176,6 +179,28 @@ public class RegistrarActivity extends AppCompatActivity {
         } catch (Exception e) {
             System.out.println("LOGDEV: " +  e.getStackTrace().toString());
             setResult(GymHistoryActivity.RESULT_CANCELED);
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.registrar_opcoes, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int menuItem = item.getItemId();
+
+        if(menuItem == R.id.menuItem_salvar){
+            salvar();
+            return true;
+        }else if( menuItem == R.id.menuItem_limpar){
+            limpar();
+            return true;
+        } else{
+            return super.onOptionsItemSelected(item);
         }
 
     }

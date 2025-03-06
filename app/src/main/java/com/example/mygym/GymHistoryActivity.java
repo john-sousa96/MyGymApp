@@ -4,6 +4,8 @@ import static com.example.mygym.TipoExercicio.Peitoral;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +17,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -118,7 +121,7 @@ public class GymHistoryActivity extends AppCompatActivity {
 
     }
 
-    public void abrirSobre (View view){
+    public void abrirSobre (){
         Intent intent = new Intent(this, SobreActivity.class);
         startActivity(intent);
     }
@@ -172,11 +175,31 @@ public class GymHistoryActivity extends AppCompatActivity {
                     }
             );
 
-    public void abrirNovoCadastro(View view){
+    public void abrirNovoCadastro(){
 
         Intent intent = new Intent(this, RegistrarActivity.class);
 
         launcherNovoCadastro.launch(intent);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.historico_opcoes, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int idMenuItem = item.getItemId();
+        if(idMenuItem == R.id.menuItem_adicionar){
+            abrirNovoCadastro();
+            return true;
+        }else if(idMenuItem == R.id.menuItem_Sobre){
+            abrirSobre();
+            return true;
+        } else{
+            return super.onOptionsItemSelected(item);
+        }
+    }
 }

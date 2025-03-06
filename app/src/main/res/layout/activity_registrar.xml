@@ -156,10 +156,14 @@
             android:layout_height="48dp"
             android:layout_marginStart="88dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="111dp"
+            android:layout_marginBottom="16dp"
             android:ems="10"
             android:hint="1"
             android:inputType="number"
             android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@+id/cb_concludo"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lb_series" />
 
@@ -167,36 +171,16 @@
             android:id="@+id/cb_concludo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
             android:text="@string/cb_concluido"
             android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cx_serie" />
-
-        <Button
-            android:id="@+id/bt_limpar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:onClick="limpar"
-            android:text="@string/bt_limpar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/bt_salvar"
-            app:layout_constraintTop_toBottomOf="@+id/cb_concludo" />
-
-        <Button
-            android:id="@+id/bt_salvar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:onClick="salvar"
-            android:text="@string/bt_salvar"
-            app:layout_constraintEnd_toStartOf="@+id/bt_limpar"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cb_concludo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
