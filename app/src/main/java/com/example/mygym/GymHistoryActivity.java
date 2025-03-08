@@ -3,8 +3,12 @@ package com.example.mygym;
 import static com.example.mygym.TipoExercicio.Peitoral;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,6 +23,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -37,6 +42,58 @@ public class GymHistoryActivity extends AppCompatActivity {
     private List <History> historyList;
     private HistoryAdapter historyAdapter;
 
+    private int posicaoSelecionada = -1;
+    private ActionMode actionMode;
+
+    private View     viewSelecionada;
+    private Drawable backgroundDrawable;
+
+    private ActionMode.Callback actionCallback = new ActionMode.Callback() {
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflate = mode.getMenuInflater();
+            inflate.inflate(R.menu.historico_item_selecionado, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+
+            int idMenuItem = item.getItemId();
+
+            if (idMenuItem == R.id.menuItem_editar){
+                editar();
+                return true;
+            }else
+            if (idMenuItem == R.id.menuItem_excluir){
+                excluir();
+                mode.finish();
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+
+            if (viewSelecionada != null){
+                viewSelecionada.setBackground(backgroundDrawable);
+            }
+
+            actionMode = null;
+            viewSelecionada = null;
+            backgroundDrawable = null;
+
+            lv_gymHistory.setEnabled(true);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +116,7 @@ public class GymHistoryActivity extends AppCompatActivity {
         });
 
        popularListaHistory();
+        //registerForContextMenu(lv_gymHistory);
 
     }
     private String getDate(Date Paramdata) {
@@ -117,6 +175,40 @@ public class GymHistoryActivity extends AppCompatActivity {
 
 
         historyAdapter = new HistoryAdapter(this, historyList);
+
+       lv_gymHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+           @Override
+           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               posicaoSelecionada = position;
+               editar();
+           }
+       });
+
+       lv_gymHistory.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+           @Override
+           public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+               if (actionMode != null) {
+                   return false;
+               }
+
+               posicaoSelecionada = position;
+
+               viewSelecionada = view;
+               backgroundDrawable = view.getBackground();
+
+               view.setBackgroundColor(Color.rgb(200, 225, 255));
+
+               lv_gymHistory.setEnabled(false);
+
+               actionMode = startSupportActionMode(actionCallback);
+
+               return true;
+           }
+       });
+
         lv_gymHistory.setAdapter(historyAdapter);
 
     }
@@ -178,7 +270,7 @@ public class GymHistoryActivity extends AppCompatActivity {
     public void abrirNovoCadastro(){
 
         Intent intent = new Intent(this, RegistrarActivity.class);
-
+        intent.putExtra(RegistrarActivity.KEY_MODO, RegistrarActivity.MODO_NOVO);
         launcherNovoCadastro.launch(intent);
     }
 
@@ -201,5 +293,84 @@ public class GymHistoryActivity extends AppCompatActivity {
         } else{
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void excluir (){
+        historyList.remove(posicaoSelecionada);
+        historyAdapter.notifyDataSetChanged();
+    }
+
+    ActivityResultLauncher<Intent> launcherEditar = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+
+            new ActivityResultCallback<ActivityResult>() {
+
+                @Override
+                public void onActivityResult(ActivityResult result) {
+
+                    try{
+                        if (result.getResultCode() == GymHistoryActivity.RESULT_OK){
+
+                            Intent intent = result.getData();
+
+                            Bundle bundle = intent.getExtras();
+
+                            if (bundle != null){
+
+
+                                Date dia = stringToDate(bundle.getString(RegistrarActivity.KEY_DIA));
+                                String tipoStr = bundle.getString(RegistrarActivity.KEY_TIPO);
+                                int exercicio = bundle.getInt(RegistrarActivity.KEY_EXERCICIO);
+                                double peso = bundle.getDouble(RegistrarActivity.KEY_PESO);
+                                int repeticoes = bundle.getInt(RegistrarActivity.KEY_REPETICOES);
+                                boolean concluido = bundle.getBoolean(RegistrarActivity.KEY_CONCLUIDO);
+
+                                History history = historyList.get(posicaoSelecionada);
+
+                                history.setData(dia);
+                                TipoExercicio tipoExercicio = TipoExercicio.valueOf(tipoStr);
+                                history.setTipoExercicio(tipoExercicio);
+                                history.setExercicio(exercicio);
+                                history.setPeso(peso);
+                                history.setRepeticoes(repeticoes);
+                                history.setConcluido(concluido);
+
+                                historyAdapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        posicaoSelecionada = -1;
+
+                        if (actionMode != null){
+                            actionMode.finish();
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("LOVDEV: " + e.getStackTrace());
+                    }
+                }
+            });
+
+    private void editar(){
+
+        try{
+            History history = historyList.get(posicaoSelecionada);
+
+            Intent intent = new Intent(this, RegistrarActivity.class);
+
+            intent.putExtra(RegistrarActivity.KEY_MODO, RegistrarActivity.MODO_EDITAR);
+
+            intent.putExtra(RegistrarActivity.KEY_DIA,      history.getData());
+            intent.putExtra(RegistrarActivity.KEY_TIPO,     history.getTipoExercicio().toString());
+            intent.putExtra(RegistrarActivity.KEY_EXERCICIO,  history.getExercicio());
+            intent.putExtra(RegistrarActivity.KEY_PESO,      history.getPeso());
+            intent.putExtra(RegistrarActivity.KEY_REPETICOES, history.getRepeticoes());
+            intent.putExtra(RegistrarActivity.KEY_CONCLUIDO, history.isConcluido());
+
+            launcherEditar.launch(intent);
+
+        } catch (Exception e) {
+            System.out.println("LOVDEV: " + e.getStackTrace());
+        }
+
     }
 }

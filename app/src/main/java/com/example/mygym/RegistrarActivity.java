@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -29,13 +30,21 @@ public class RegistrarActivity extends AppCompatActivity {
     public static final String KEY_PESO = "KEY_PESO";
     public static final String KEY_REPETICOES = "KEY_REPETICOES";
     public static final String KEY_CONCLUIDO = "KEY_CONCLUIDO";
+    public static final String KEY_MODO = "MODO";
+
+    public static final int MODO_NOVO   = 0;
+    public static final int MODO_EDITAR = 1;
     private EditText cx_dia, cx_peso, cx_serie;
     private CheckBox cb_concluido;
     private RadioGroup rg_tipo;
     private Spinner sp_exercicio;
+    private RadioButton rb_peitoral,rb_abdomen, rb_costas, rb_inferior;
     DateFormat dateFormat;
     Date date;
     String dataformatada;
+
+    private int modo;
+    private History historyOriginal;
 
 
     @Override
@@ -49,13 +58,90 @@ public class RegistrarActivity extends AppCompatActivity {
         cb_concluido = findViewById(R.id.cb_concludo);
         rg_tipo = findViewById(R.id.rg_tipo);
         sp_exercicio = findViewById(R.id.sp_exercicio);
+        rb_peitoral = findViewById(R.id.rb_peitoral);
+        rb_abdomen = findViewById(R.id.rb_abdomen);
+        rb_costas = findViewById(R.id.rb_costas);
+        rb_inferior = findViewById(R.id.rb_inferior);
 
+        try{
+
+            Intent intent = getIntent();
+            Bundle bundle = intent.getExtras();
+
+            if (bundle != null){
+
+                modo = bundle.getInt(KEY_MODO);
+
+                if (modo == MODO_NOVO){
+                    setTitle(getString(R.string.Novo));
+                }else{
+                    setTitle(getString(R.string.item_editar));
+
+                    Date dia = new Date();
+                    String tipoStr = bundle.getString(RegistrarActivity.KEY_TIPO);
+                    int exercicio = bundle.getInt(RegistrarActivity.KEY_EXERCICIO);
+                    double peso = bundle.getDouble(RegistrarActivity.KEY_PESO);
+                    int repeticoes = bundle.getInt(RegistrarActivity.KEY_REPETICOES);
+                    boolean concluido = bundle.getBoolean(RegistrarActivity.KEY_CONCLUIDO);
+
+                    TipoExercicio tipoExercicio = TipoExercicio.valueOf(tipoStr);
+
+                    historyOriginal = new History(dia,
+                            tipoExercicio,
+                            exercicio,
+                            peso,
+                            repeticoes,
+                            concluido);
+
+
+                    cx_dia.setText(getDate(dia));
+                    if(tipoExercicio == TipoExercicio.Peitoral){
+                        rb_peitoral.setChecked(true);
+                    } else if (tipoExercicio == TipoExercicio.Abdomem) {
+                        rb_abdomen.setChecked(true);
+                    } else if (tipoExercicio == TipoExercicio.Costas) {
+                        rb_costas.setChecked(true);
+                    } else if (tipoExercicio == TipoExercicio.Inferiores) {
+                        rb_inferior.setChecked(true);
+                    }
+                    sp_exercicio.setSelection(exercicio);
+                    cx_peso.setText(String.valueOf(peso));
+                    cx_serie.setText(String.valueOf(repeticoes));
+                    cb_concluido.setChecked(concluido);
+
+                }
+            }
+
+
+        } catch (Exception e) {
+            System.out.println("LOGDEV: " +  e.getStackTrace());
+        }
+
+
+
+
+    }
+
+    public static Date stringToDate(String dateStr) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            return sdf.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private String getDate() {
         dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         date = new Date();
         dataformatada = dateFormat.format(date);
+        return dataformatada;
+    }
+
+    private String getDate(Date Paramdata) {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dataformatada = dateFormat.format(Paramdata);
         return dataformatada;
     }
 
@@ -164,6 +250,18 @@ public class RegistrarActivity extends AppCompatActivity {
 
             boolean concluido = cb_concluido.isChecked();
 
+            if(modo==MODO_EDITAR &&
+            tipoExercicio == historyOriginal.getTipoExercicio() &&
+            exercicio == historyOriginal.getExercicio()&&
+            pesoDouble == historyOriginal.getPeso() &&
+            serieInt == historyOriginal.getRepeticoes() &&
+            concluido == historyOriginal.isConcluido()
+            ){
+                setResult(RegistrarActivity.RESULT_CANCELED);
+                finish();
+                return;
+            }
+
             Intent intentResposta = new Intent();
             intentResposta.putExtra(KEY_DIA, dataformatada);
             intentResposta.putExtra(KEY_TIPO, tipoExercicio.toString());
@@ -177,7 +275,7 @@ public class RegistrarActivity extends AppCompatActivity {
 
 
         } catch (Exception e) {
-            System.out.println("LOGDEV: " +  e.getStackTrace().toString());
+            System.out.println("LOGDEV: " +  e.getStackTrace());
             setResult(GymHistoryActivity.RESULT_CANCELED);
         }
 

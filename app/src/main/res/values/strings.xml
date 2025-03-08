@@ -15,4 +15,7 @@
     <string name="Novo">Novo</string>
     <string name="toast_n_possvel_abrir_o_app">Não é possível abrir o app</string>
     <string name="contato_app">Contato sobre o app MyGym</string>
+    <string name="item_editar">Editar</string>
+    <string name="item_excluir">Excluir</string>
+
 </resources>
